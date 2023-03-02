@@ -1,4 +1,4 @@
-export const pokemon = {
+export const ditto = {
   abilities: [
     {
       ability: {

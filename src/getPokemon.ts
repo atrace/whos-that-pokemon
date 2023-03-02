@@ -1,6 +1,6 @@
 import { Pokemon, PokemonClient } from "pokenode-ts";
 
-export const getPokemon = async (name: string): Promise<Pokemon> => {
+export const getPokemonByName = async (name: string): Promise<Pokemon> => {
   const api = new PokemonClient();
 
   try {

@@ -1,5 +1,5 @@
-import { getPokemon } from "./getPokemon";
-import { pokemon as examplePokemon } from "./pokemon";
+import { getPokemonByName } from "./getPokemon";
+import { ditto as examplePokemon } from "./pokemon";
 
 describe("getPokemon", () => {
   it("should get a Pokemon", async () => {
@@ -7,7 +7,7 @@ describe("getPokemon", () => {
     const pokemonName = "ditto";
 
     // Act
-    const pokemon = await getPokemon(pokemonName);
+    const pokemon = await getPokemonByName(pokemonName);
 
     // Assert
     expect(pokemon).toBeDefined();
