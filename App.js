@@ -1,20 +1,58 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View>
+      <View style={styles.stuckContainer}>
+        <Text>Here is something I want to stay stuck to the top.</Text>
+      </View>
+      <ScrollView style={styles.scrollingContainer}>
+        <View style={styles.body}>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scroll</Text>
+          <Text>All of this and below will scrolllll</Text>
+          <Text>All of this and below will scroll</Text>
+        </View>
+      </ScrollView>
+      <Image></Image>
       <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  stuckContainer: {
+    // flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
+    height: "20%",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "red",
+  },
+  body: { alignItems: "center" },
+  scrollingContainer: {
+    backgroundColor: "green",
   },
 });
