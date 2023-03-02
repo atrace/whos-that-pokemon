@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import Picker from "react-native-picker-select";
 import { getPokemonByName } from "./src/getPokemon";
 import { ditto } from "./src/pokemon";
 
@@ -8,14 +9,15 @@ const hasChanged = (currentState, newState) => {
 };
 
 const App = () => {
+  const [pokemonName, setPokemonName] = useState("ditto");
   const [pokemon, setPokemon] = useState(ditto);
 
   useEffect(() => {
     console.log("I'm using an effect!");
-    getPokemonByName("pikachu").then((data) =>
+    getPokemonByName(pokemonName).then((data) =>
       setPokemon((current) => (hasChanged(current, data) ? data : current))
     );
-  }, []);
+  }, [pokemonName]);
 
   return (
     <View>
@@ -24,6 +26,20 @@ const App = () => {
       </View>
       <ScrollView style={styles.scrollingContainer}>
         <View style={styles.body}>
+          <Picker
+            onValueChange={(newName) => {
+              console.log(newName);
+              setPokemonName((currentName) =>
+                newName === null ? currentName : newName
+              );
+            }}
+            items={[
+              { label: "Ditto", value: "ditto" },
+              { label: "Luxray", value: "luxray" },
+              { label: "Pikachu", value: "pikachu" },
+            ]}
+            style={pickerSelectStyles}
+          />
           <Image
             source={{
               uri: pokemon.sprites.front_default,
@@ -47,6 +63,31 @@ const styles = StyleSheet.create({
   body: { alignItems: "center" },
   scrollingContainer: {
     backgroundColor: "green",
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    backgroundColor: "white",
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 4,
+    color: "black",
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    backgroundColor: "white",
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: "purple",
+    borderRadius: 8,
+    color: "black",
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 
