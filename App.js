@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import Picker from "react-native-picker-select";
-import { getPokemonByName } from "./src/getPokemon";
+import { getPokemonByName, getPrettyPokemonNames } from "./src/getPokemon";
 import { ditto } from "./src/pokemon";
 
 const hasChanged = (currentState, newState) => {
@@ -11,6 +11,18 @@ const hasChanged = (currentState, newState) => {
 const App = () => {
   const [pokemonName, setPokemonName] = useState("ditto");
   const [pokemon, setPokemon] = useState(ditto);
+  const [names, setNames] = useState([
+    { label: "Ditto", value: "ditto" },
+    { label: "Luxray", value: "luxray" },
+    { label: "Pikachu", value: "pikachu" },
+  ]);
+
+  useEffect(() => {
+    console.log("I'm using another effect!");
+    getPrettyPokemonNames().then((data) =>
+      setNames((current) => (hasChanged(current, data) ? data : current))
+    );
+  }, []);
 
   useEffect(() => {
     console.log("I'm using an effect!");
@@ -33,11 +45,7 @@ const App = () => {
                 newName === null ? currentName : newName
               );
             }}
-            items={[
-              { label: "Ditto", value: "ditto" },
-              { label: "Luxray", value: "luxray" },
-              { label: "Pikachu", value: "pikachu" },
-            ]}
+            items={names}
             style={pickerSelectStyles}
           />
           <Image
