@@ -1,51 +1,27 @@
-import { StatusBar } from "expo-status-bar";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { pokemon } from "./pokemon";
 
-export default function App() {
-  return (
-    <View>
-      <View style={styles.stuckContainer}>
-        <Text>Here is something I want to stay stuck to the top.</Text>
-      </View>
-      <ScrollView style={styles.scrollingContainer}>
-        <View style={styles.body}>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scroll</Text>
-          <Text>All of this and below will scrolllll</Text>
-          <Text>All of this and below will scroll</Text>
-        </View>
-      </ScrollView>
-      <Image></Image>
-      <StatusBar style="auto" />
+const App = () => (
+  <View>
+    <View style={styles.stuckContainer}>
+      <Text>Here is something I want to stay stuck to the top.</Text>
     </View>
-  );
-}
+    <ScrollView style={styles.scrollingContainer}>
+      <View style={styles.body}>
+        <Image
+          source={{
+            uri: pokemon.sprites.front_default,
+          }}
+          style={{ width: 200, height: 200 }}
+        />
+        <Text>Hello, I am {pokemon.name}</Text>
+      </View>
+    </ScrollView>
+  </View>
+);
 
 const styles = StyleSheet.create({
   stuckContainer: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
     height: "20%",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -56,3 +32,5 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
 });
+
+export default App;
