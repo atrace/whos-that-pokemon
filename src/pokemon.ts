@@ -1,4 +1,6 @@
-export const ditto = {
+import { Pokemon } from "pokenode-ts";
+
+export const ditto: Pokemon = {
   abilities: [
     {
       ability: {

@@ -1,4 +1,5 @@
 import { NamedAPIResourceList, Pokemon, PokemonClient } from "pokenode-ts";
+import { Item } from "react-native-picker-select";
 
 export const getPokemonByName = async (name: string): Promise<Pokemon> => {
   const api = new PokemonClient();
@@ -29,7 +30,9 @@ const capitalise = (word) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-export const getPrettyPokemonNames = async (offset?: number) => {
+export const getPrettyPokemonNames = async (
+  offset?: number
+): Promise<Item[]> => {
   const rawNames = await getPokemonNames();
   const prettyNames = [];
 
