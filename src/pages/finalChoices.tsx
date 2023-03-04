@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Item } from "react-native-picker-select";
-import { getPokemonByName, getPrettyPokemonNames } from "../getPokemon";
+import { PokeClient } from "../getPokemon";
 import { ditto } from "../pokemon";
+import { FinalPages, hasChanged } from "../utils";
 import { Hooray } from "./hooray";
 import { PickPokemon } from "./pickPokemon";
 
-const hasChanged = (currentState, newState) => {
-  return JSON.stringify(currentState) !== JSON.stringify(newState);
-};
+interface FinalChoicesProps {
+  client: PokeClient;
+  names: Item[];
+  setNames: React.Dispatch<React.SetStateAction<Item[]>>;
+}
 
-type FinalPages = "PICKER" | "HOORAY";
-
-export const FinalChoices = () => {
+export const FinalChoices = ({ client, names, setNames }) => {
   const [currentPage, setCurrentPage] = useState<FinalPages>("PICKER");
 
-  const [names, setNames] = useState<Item[]>([
-    { label: "Ditto", value: "ditto" },
-    { label: "Luxray", value: "luxray" },
-    { label: "Pikachu", value: "pikachu" },
-  ]);
   const [pokemonName, setPokemonName] = useState("ditto");
   const [pokemon, setPokemon] = useState(ditto);
 
   useEffect(() => {
     console.log("I'm using an effect!");
-    getPokemonByName(pokemonName).then((data) =>
-      setPokemon((current) => (hasChanged(current, data) ? data : current))
-    );
+    client
+      .getPokemonByName(pokemonName)
+      .then((data) =>
+        setPokemon((current) => (hasChanged(current, data) ? data : current))
+      );
   }, [pokemonName]);
 
   useEffect(() => {
     console.log("I'm using another effect!");
-    getPrettyPokemonNames().then((data) =>
-      setNames((current) => (hasChanged(current, data) ? data : current))
-    );
+    client
+      .getPokemonNames()
+      .then((data) =>
+        setNames((current) => (hasChanged(current, data) ? data : current))
+      );
   }, []);
 
   return (
@@ -56,5 +56,5 @@ export const FinalChoices = () => {
 };
 
 const styles = StyleSheet.create({
-  body: { alignItems: "center" },
+  body: { alignItems: "center", paddingTop: "8%" },
 });

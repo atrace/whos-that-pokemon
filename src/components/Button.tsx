@@ -3,12 +3,13 @@ import { View } from "react-native/types";
 
 type ButtonProps = PressableProps & React.RefAttributes<View> & {};
 
-export const Button = ({ onPress, children }: ButtonProps) => (
+export const Button = ({ onPress, disabled, children }: ButtonProps) => (
   <Pressable
     onPress={onPress}
+    disabled={disabled}
     style={({ pressed }) => [
       {
-        backgroundColor: pressed ? "blue" : "red",
+        backgroundColor: pressed ? "blue" : disabled ? "pink" : "red",
       },
       styles.button,
     ]}
@@ -20,7 +21,7 @@ export const Button = ({ onPress, children }: ButtonProps) => (
 const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
-    padding: 6,
+    padding: 16,
     justifyContent: "center",
     alignItems: "center",
   },

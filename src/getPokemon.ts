@@ -1,27 +1,10 @@
-import { NamedAPIResourceList, Pokemon, PokemonClient } from "pokenode-ts";
+import {
+  NamedAPIResource,
+  NamedAPIResourceList,
+  Pokemon,
+  PokemonClient,
+} from "pokenode-ts";
 import { Item } from "react-native-picker-select";
-
-export const getPokemonByName = async (name: string): Promise<Pokemon> => {
-  const api = new PokemonClient();
-
-  try {
-    return await api.getPokemonByName(name);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getPokemonNames = async (
-  offset?: number
-): Promise<NamedAPIResourceList> => {
-  const api = new PokemonClient();
-
-  try {
-    return await api.listPokemons(offset || 0, 20);
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const capitalise = (word) => {
   if (word.length === 0) {
@@ -30,16 +13,49 @@ const capitalise = (word) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-export const getPrettyPokemonNames = async (
-  offset?: number
-): Promise<Item[]> => {
-  const rawNames = await getPokemonNames();
-  const prettyNames = [];
+export interface PokeClient {
+  getPokemonByName: (name: string) => Promise<Pokemon>;
+  getPokemonNames: (offset?: number) => Promise<NamedAPIResourceList>;
+}
 
-  rawNames.results.forEach((element) => {
-    console.log(element);
-    prettyNames.push({ value: element.name, label: capitalise(element.name) });
-  });
+export const getPokeClient = (): PokeClient => {
+  const client = new PokemonClient();
 
-  return prettyNames;
+  const getPokemonByName = async (name: string): Promise<Pokemon> => {
+    try {
+      return await client.getPokemonByName(name);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPokemonNames = async (offset?: number): Promise<Item[]> => {
+    const api = new PokemonClient();
+
+    try {
+      const response = await api.listPokemons(offset || 0, 20);
+
+      return getPrettyPokemonNames(response.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPrettyPokemonNames = async (
+    namesToPrettify: NamedAPIResource[]
+  ): Promise<Item[]> => {
+    const prettyNames = [];
+
+    namesToPrettify.forEach((element) => {
+      console.log(element);
+      prettyNames.push({
+        value: element.name,
+        label: capitalise(element.name),
+      });
+    });
+
+    return prettyNames;
+  };
+
+  return { getPokemonByName, getPokemonNames };
 };
