@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { PokemonCard } from "../components/pokemonCard";
+import { Item } from "react-native-picker-select";
 import { getPokemonByName, getPrettyPokemonNames } from "../getPokemon";
 import { ditto } from "../pokemon";
+import { Hooray } from "./hooray";
 import { PickPokemon } from "./pickPokemon";
 
 const hasChanged = (currentState, newState) => {
   return JSON.stringify(currentState) !== JSON.stringify(newState);
 };
 
+type FinalPages = "PICKER" | "HOORAY";
+
 export const FinalChoices = () => {
-  const [names, setNames] = useState([
+  const [currentPage, setCurrentPage] = useState<FinalPages>("PICKER");
+
+  const [names, setNames] = useState<Item[]>([
     { label: "Ditto", value: "ditto" },
     { label: "Luxray", value: "luxray" },
     { label: "Pikachu", value: "pikachu" },
@@ -34,8 +39,18 @@ export const FinalChoices = () => {
 
   return (
     <View style={styles.body}>
-      <PickPokemon setPokemonName={setPokemonName} names={names} />
-      <PokemonCard pokemon={pokemon} />
+      {currentPage === "PICKER" ? (
+        <PickPokemon
+          setPokemonName={setPokemonName}
+          names={names}
+          confirmPokemon={() => setCurrentPage("HOORAY")}
+        />
+      ) : (
+        <Hooray
+          pokemon={pokemon}
+          chooseAnother={() => setCurrentPage("PICKER")}
+        />
+      )}
     </View>
   );
 };

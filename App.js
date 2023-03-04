@@ -5,7 +5,7 @@ const App = () => {
   return (
     <View>
       <View style={styles.stuckContainer}>
-        <Text>Here is something I want to stay stuck to the top.</Text>
+        <Text>Who's that Pokémon?</Text>
       </View>
       <ScrollView style={styles.scrollingContainer}>
         <FinalChoices />

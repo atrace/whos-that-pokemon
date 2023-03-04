@@ -1,24 +1,35 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import Picker, { Item } from "react-native-picker-select";
+import { Button } from "../components/Button";
 
 interface PickPokemonProps {
   setPokemonName: React.Dispatch<React.SetStateAction<string>>;
   names: Item[];
+  confirmPokemon: () => void;
 }
 
-export const PickPokemon = ({ setPokemonName, names }: PickPokemonProps) => {
+export const PickPokemon = ({
+  setPokemonName,
+  names,
+  confirmPokemon,
+}: PickPokemonProps) => {
   return (
-    <Picker
-      onValueChange={(newName) => {
-        console.log(newName);
-        setPokemonName((currentName) =>
-          newName === null ? currentName : newName
-        );
-      }}
-      items={names}
-      style={pickerSelectStyles}
-    />
+    <View>
+      <Picker
+        onValueChange={(newName) => {
+          console.log(newName);
+          setPokemonName((currentName) =>
+            newName === null ? currentName : newName
+          );
+        }}
+        items={names}
+        style={pickerSelectStyles}
+      />
+      <Button onPress={confirmPokemon}>
+        <Text>View Pokémon</Text>
+      </Button>
+    </View>
   );
 };
 
