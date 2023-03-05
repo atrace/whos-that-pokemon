@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Item } from "react-native-picker-select";
 import { Header } from "./components/Header";
 import { getPokeClient } from "./getPokemon";
 import { FinalChoices } from "./pages/finalChoices";
+import { Habitat } from "./pages/habitatPicker";
 import { Page } from "./utils";
 
 export const AppContainer = () => {
   const [page, setPage] = useState<Page>("HABITAT");
 
-  const [names, setNames] = useState<Item[]>([
-    { label: "Ditto", value: "ditto" },
-    { label: "Luxray", value: "luxray" },
-    { label: "Pikachu", value: "pikachu" },
-  ]);
+  const [habitatId, setHabitatId] = useState<number>();
 
   const client = getPokeClient();
 
@@ -22,10 +18,14 @@ export const AppContainer = () => {
       <Header />
       <ScrollView style={styles.scrollingContainer}>
         {page === "HABITAT" && (
-          <FinalChoices client={client} names={names} setNames={setNames} />
+          <Habitat setHabitatId={setHabitatId} setPage={setPage} />
         )}
         {page === "FINAL CHOICES" && (
-          <FinalChoices client={client} names={names} setNames={setNames} />
+          <FinalChoices
+            client={client}
+            habitatId={habitatId}
+            setPage={setPage}
+          />
         )}
       </ScrollView>
     </View>

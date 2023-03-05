@@ -1,9 +1,4 @@
-import {
-  NamedAPIResource,
-  NamedAPIResourceList,
-  Pokemon,
-  PokemonClient,
-} from "pokenode-ts";
+import { NamedAPIResource, Pokemon, PokemonClient } from "pokenode-ts";
 import { Item } from "react-native-picker-select";
 
 const capitalise = (word) => {
@@ -15,7 +10,8 @@ const capitalise = (word) => {
 
 export interface PokeClient {
   getPokemonByName: (name: string) => Promise<Pokemon>;
-  getPokemonNames: (offset?: number) => Promise<NamedAPIResourceList>;
+  getPokemonNames: (offset?: number) => Promise<Item[]>;
+  getPokemonByHabitatId: (offset?: number) => Promise<Item[]>;
 }
 
 export const getPokeClient = (): PokeClient => {
@@ -30,12 +26,19 @@ export const getPokeClient = (): PokeClient => {
   };
 
   const getPokemonNames = async (offset?: number): Promise<Item[]> => {
-    const api = new PokemonClient();
-
     try {
-      const response = await api.listPokemons(offset || 0, 20);
+      const response = await client.listPokemons(offset || 0, 20);
 
       return getPrettyPokemonNames(response.results);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getPokemonByHabitatId = async (id: number): Promise<Item[]> => {
+    try {
+      const response = await client.getPokemonHabitatById(id);
+      return getPrettyPokemonNames(response.pokemon_species);
     } catch (error) {
       console.error(error);
     }
@@ -47,7 +50,6 @@ export const getPokeClient = (): PokeClient => {
     const prettyNames = [];
 
     namesToPrettify.forEach((element) => {
-      console.log(element);
       prettyNames.push({
         value: element.name,
         label: capitalise(element.name),
@@ -57,5 +59,5 @@ export const getPokeClient = (): PokeClient => {
     return prettyNames;
   };
 
-  return { getPokemonByName, getPokemonNames };
+  return { getPokemonByName, getPokemonNames, getPokemonByHabitatId };
 };

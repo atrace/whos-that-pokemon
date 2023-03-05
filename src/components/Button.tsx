@@ -3,7 +3,7 @@ import { View } from "react-native/types";
 
 type ButtonProps = PressableProps & React.RefAttributes<View> & {};
 
-export const Button = ({ onPress, disabled, children }: ButtonProps) => (
+export const Button = ({ onPress, disabled, style, children }: ButtonProps) => (
   <Pressable
     onPress={onPress}
     disabled={disabled}
@@ -11,7 +11,7 @@ export const Button = ({ onPress, disabled, children }: ButtonProps) => (
       {
         backgroundColor: pressed ? "blue" : disabled ? "pink" : "red",
       },
-      styles.button,
+      { ...styles.button, ...style },
     ]}
   >
     {children}

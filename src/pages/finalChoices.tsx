@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Item } from "react-native-picker-select";
+import { Button } from "../components/Button";
 import { PokeClient } from "../getPokemon";
 import { ditto } from "../pokemon";
-import { FinalPages, hasChanged } from "../utils";
+import { FinalPages, hasChanged, Page } from "../utils";
 import { Hooray } from "./hooray";
 import { PickPokemon } from "./pickPokemon";
 
 interface FinalChoicesProps {
   client: PokeClient;
-  names: Item[];
-  setNames: React.Dispatch<React.SetStateAction<Item[]>>;
+  habitatId: number;
+  setPage: React.Dispatch<React.SetStateAction<Page>>;
 }
 
-export const FinalChoices = ({ client, names, setNames }) => {
+export const FinalChoices = ({
+  client,
+  habitatId,
+  setPage,
+}: FinalChoicesProps) => {
   const [currentPage, setCurrentPage] = useState<FinalPages>("PICKER");
 
   const [pokemonName, setPokemonName] = useState("ditto");
   const [pokemon, setPokemon] = useState(ditto);
+
+  const [names, setNames] = useState<Item[]>([
+    { label: "Ditto", value: "ditto" },
+    { label: "Luxray", value: "luxray" },
+    { label: "Pikachu", value: "pikachu" },
+  ]);
 
   useEffect(() => {
     console.log("I'm using an effect!");
@@ -30,11 +41,11 @@ export const FinalChoices = ({ client, names, setNames }) => {
 
   useEffect(() => {
     console.log("I'm using another effect!");
-    client
-      .getPokemonNames()
-      .then((data) =>
-        setNames((current) => (hasChanged(current, data) ? data : current))
+    client.getPokemonByHabitatId(habitatId).then((data) => {
+      return setNames((current) =>
+        hasChanged(current, data) ? data : current
       );
+    });
   }, []);
 
   return (
@@ -51,6 +62,9 @@ export const FinalChoices = ({ client, names, setNames }) => {
           chooseAnother={() => setCurrentPage("PICKER")}
         />
       )}
+      <Button onPress={() => setPage("HABITAT")} style={{ marginTop: 30 }}>
+        <Text>Choose a different habitat</Text>
+      </Button>
     </View>
   );
 };
