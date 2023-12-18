@@ -14,6 +14,22 @@ export interface PokeClient {
   getPokemonByHabitatId: (offset?: number) => Promise<Item[]>;
 }
 
+export const getPrettyPokemonNames = (
+  namesToPrettify: NamedAPIResource[]
+): Item[] => {
+  console.log("namesToPrettify:", namesToPrettify);
+  const prettyNames = [];
+
+  namesToPrettify.forEach((element) => {
+    prettyNames.push({
+      value: element.name,
+      label: capitalise(element.name)
+    });
+  });
+
+  return prettyNames;
+};
+
 export const getPokeClient = (): PokeClient => {
   const client = new PokemonClient();
 
@@ -42,21 +58,6 @@ export const getPokeClient = (): PokeClient => {
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const getPrettyPokemonNames = async (
-    namesToPrettify: NamedAPIResource[]
-  ): Promise<Item[]> => {
-    const prettyNames = [];
-
-    namesToPrettify.forEach((element) => {
-      prettyNames.push({
-        value: element.name,
-        label: capitalise(element.name),
-      });
-    });
-
-    return prettyNames;
   };
 
   return { getPokemonByName, getPokemonNames, getPokemonByHabitatId };

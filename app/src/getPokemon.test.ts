@@ -1,7 +1,7 @@
 import {
   getPokemonByName,
   getPokemonNames,
-  getPrettyPokemonNames,
+  getPrettyPokemonNames
 } from "./getPokemon";
 import { ditto as examplePokemon } from "./pokemon";
 
