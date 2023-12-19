@@ -1,5 +1,5 @@
 import { getPokeClient, getPrettyPokemonNames } from "./getPokemon";
-import { ditto as examplePokemon } from "./pokemon";
+import { ditto as examplePokemon } from "./testPokemon";
 
 describe("getPokemon", () => {
   let client;

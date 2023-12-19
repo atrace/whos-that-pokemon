@@ -717,7 +717,6 @@ export const ditto: Pokemon = {
   ],
   name: "ditto",
   order: 214,
-  past_abilities: [],
   past_types: [],
   species: {
     name: "ditto",
@@ -752,9 +751,7 @@ export const ditto: Pokemon = {
       },
       "official-artwork": {
         front_default:
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png",
-        front_shiny:
-          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/132.png"
+          "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/132.png"
       }
     },
     versions: {

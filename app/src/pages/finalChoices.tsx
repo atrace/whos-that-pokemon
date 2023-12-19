@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Item } from "react-native-picker-select";
 import { Button } from "../components/Button";
 import { PokeClient } from "../getPokemon";
-import { ditto } from "../pokemon";
+import { ditto } from "../testPokemon";
 import { FinalPages, hasChanged, Page } from "../utils";
 import { Hooray } from "./hooray";
 import { PickPokemon } from "./pickPokemon";
