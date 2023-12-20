@@ -1,4 +1,4 @@
-import { Pokemon } from "pokenode-ts";
+import { Pokemon } from "pokemon-lil-api";
 import React from "react";
 import { Text, View } from "react-native";
 import { Button } from "../components/Button";

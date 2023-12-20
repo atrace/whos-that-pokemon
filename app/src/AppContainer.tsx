@@ -1,4 +1,4 @@
-import { useState } from "react";
+import * as React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Header } from "./components/Header";
 import { getPokeClient } from "./getPokemon";
@@ -7,9 +7,9 @@ import { Habitat } from "./pages/habitatPicker";
 import { Page } from "./utils";
 
 export const AppContainer = () => {
-  const [page, setPage] = useState<Page>("HABITAT");
+  const [page, setPage] = React.useState<Page>("HABITAT");
 
-  const [habitatId, setHabitatId] = useState<number>();
+  const [habitatId, setHabitatId] = React.useState<number>();
 
   const client = getPokeClient();
 
@@ -35,6 +35,6 @@ export const AppContainer = () => {
 const styles = StyleSheet.create({
   scrollingContainer: {
     backgroundColor: "green",
-    height: "100%",
-  },
+    height: "100%"
+  }
 });

@@ -1,4 +1,4 @@
-import { Pokemon } from "pokenode-ts";
+import { Pokemon } from "pokemon-lil-api";
 import React from "react";
 import { Image, Text, View } from "react-native";
 
@@ -10,7 +10,7 @@ export const PokemonCard = ({ pokemon }: PokemonCardProps) => (
   <View>
     <Image
       source={{
-        uri: pokemon.sprites.front_default,
+        uri: pokemon.sprite
       }}
       style={{ width: 200, height: 200 }}
     />

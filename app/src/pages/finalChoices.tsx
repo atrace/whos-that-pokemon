@@ -3,10 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { Item } from "react-native-picker-select";
 import { Button } from "../components/Button";
 import { PokeClient } from "../getPokemon";
-import { ditto } from "../testPokemon";
-import { FinalPages, hasChanged, Page } from "../utils";
+import { FinalPages, Page, hasChanged } from "../utils";
 import { Hooray } from "./hooray";
 import { PickPokemon } from "./pickPokemon";
+import { Pokemon } from "pokemon-lil-api";
 
 interface FinalChoicesProps {
   client: PokeClient;
@@ -14,20 +14,21 @@ interface FinalChoicesProps {
   setPage: React.Dispatch<React.SetStateAction<Page>>;
 }
 
-export const FinalChoices = ({
-  client,
-  habitatId,
-  setPage,
-}: FinalChoicesProps) => {
+export const FinalChoices = ({ client, habitatId, setPage }: FinalChoicesProps) => {
   const [currentPage, setCurrentPage] = useState<FinalPages>("PICKER");
 
   const [pokemonName, setPokemonName] = useState("ditto");
-  const [pokemon, setPokemon] = useState(ditto);
+  const ditto: Pokemon = {
+    id: 132,
+    name: "ditto",
+    sprite: "this is a URL i promise"
+  };
+  const [pokemon, setPokemon] = useState<Pokemon>(ditto);
 
   const [names, setNames] = useState<Item[]>([
     { label: "Ditto", value: "ditto" },
     { label: "Luxray", value: "luxray" },
-    { label: "Pikachu", value: "pikachu" },
+    { label: "Pikachu", value: "pikachu" }
   ]);
 
   useEffect(() => {

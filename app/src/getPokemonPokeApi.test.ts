@@ -1,15 +1,8 @@
-import { Pokemon } from "pokemon-lil-api";
-import { PokeClient, getPokeClient, getPrettyPokemonNames } from "./getPokemon";
-
-const examplePokemon: Pokemon = {
-  name: "ditto",
-  id: 132,
-  sprite:
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
-};
+import { getPokeClient, getPrettyPokemonNames } from "./getPokemon";
+import { ditto as examplePokemon } from "./testPokemon";
 
 describe("getPokemon", () => {
-  let client: PokeClient;
+  let client;
 
   beforeAll(() => {
     client = getPokeClient();

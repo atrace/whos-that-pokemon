@@ -1,0 +1,7 @@
+{
+  "npmName": "pokemon-lil-api",
+  "npmVersion": "0.0.1",
+  "npmRepository": "https://github.com/atrace/whos-that-pokemon.git",
+  "supportsES6": true,
+  "withNodeImports": true
+}

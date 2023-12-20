@@ -1,4 +1,9 @@
-import { NamedAPIResource, Pokemon, PokemonClient } from "pokenode-ts";
+import {
+  Configuration,
+  ConfigurationParameters,
+  DefaultApi,
+  Pokemon
+} from "pokemon-lil-api";
 import { Item } from "react-native-picker-select";
 
 const capitalise = (word) => {
@@ -8,16 +13,14 @@ const capitalise = (word) => {
   return word.charAt(0).toUpperCase() + word.slice(1);
 };
 
-export interface PokeClient {
-  getPokemonByName: (name: string) => Promise<Pokemon>;
-  getPokemonNames: (offset?: number) => Promise<Item[]>;
-  getPokemonByHabitatId: (offset?: number) => Promise<Item[]>;
+interface NamedAPIEntity {
+  name: string;
+  url: string;
 }
 
 export const getPrettyPokemonNames = (
-  namesToPrettify: NamedAPIResource[]
+  namesToPrettify: NamedAPIEntity[]
 ): Item[] => {
-  console.log("namesToPrettify:", namesToPrettify);
   const prettyNames = [];
 
   namesToPrettify.forEach((element) => {
@@ -30,35 +33,46 @@ export const getPrettyPokemonNames = (
   return prettyNames;
 };
 
+export interface PokeClient {
+  getPokemonByName: (name: string) => Promise<Pokemon>;
+  // getPokemonNames: (offset?: number) => Promise<Item[]>;
+  // getPokemonByHabitatId: (offset?: number) => Promise<Item[]>;
+}
+
 export const getPokeClient = (): PokeClient => {
-  const client = new PokemonClient();
+  const config: ConfigurationParameters = { basePath: "http://localhost:3000" };
+  const client = new DefaultApi(new Configuration(config));
 
   const getPokemonByName = async (name: string): Promise<Pokemon> => {
     try {
-      return await client.getPokemonByName(name);
+      const response = await client.getPokemon(name);
+      return response.data;
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getPokemonNames = async (offset?: number): Promise<Item[]> => {
-    try {
-      const response = await client.listPokemons(offset || 0, 20);
+  // const getPokemonNames = async (offset?: number): Promise<Item[]> => {
+  //   try {
+  //     // const response = await client.listPokemons(offset || 0, 20);
 
-      return getPrettyPokemonNames(response.results);
-    } catch (error) {
-      console.error(error);
-    }
+  //     // return getPrettyPokemonNames(response.results);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const getPokemonByHabitatId = async (id: number): Promise<Item[]> => {
+  //   try {
+  //     const response = await client.getPokemonHabitatById(id);
+  //     return getPrettyPokemonNames(response.pokemon_species);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  return {
+    getPokemonByName
+    // , getPokemonNames, getPokemonByHabitatId
   };
-
-  const getPokemonByHabitatId = async (id: number): Promise<Item[]> => {
-    try {
-      const response = await client.getPokemonHabitatById(id);
-      return getPrettyPokemonNames(response.pokemon_species);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  return { getPokemonByName, getPokemonNames, getPokemonByHabitatId };
 };
