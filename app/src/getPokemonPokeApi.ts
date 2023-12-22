@@ -11,7 +11,6 @@ const capitalise = (word) => {
 export const getPrettyPokemonNames = (
   namesToPrettify: NamedAPIResource[]
 ): Item[] => {
-  console.log("namesToPrettify:", namesToPrettify);
   const prettyNames = [];
 
   namesToPrettify.forEach((element) => {
@@ -26,8 +25,7 @@ export const getPrettyPokemonNames = (
 
 export interface PokeClient {
   getPokemonByName: (name: string) => Promise<Pokemon>;
-  getPokemonNames: (offset?: number) => Promise<Item[]>;
-  getPokemonByHabitatId: (offset?: number) => Promise<Item[]>;
+  getPokemonsByHabitatId: (offset?: number) => Promise<Item[]>;
 }
 
 export const getPokeClient = (): PokeClient => {
@@ -41,17 +39,7 @@ export const getPokeClient = (): PokeClient => {
     }
   };
 
-  const getPokemonNames = async (offset?: number): Promise<Item[]> => {
-    try {
-      const response = await client.listPokemons(offset || 0, 20);
-
-      return getPrettyPokemonNames(response.results);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getPokemonByHabitatId = async (id: number): Promise<Item[]> => {
+  const getPokemonsByHabitatId = async (id: number): Promise<Item[]> => {
     try {
       const response = await client.getPokemonHabitatById(id);
       return getPrettyPokemonNames(response.pokemon_species);
@@ -60,5 +48,5 @@ export const getPokeClient = (): PokeClient => {
     }
   };
 
-  return { getPokemonByName, getPokemonNames, getPokemonByHabitatId };
+  return { getPokemonByName, getPokemonsByHabitatId };
 };

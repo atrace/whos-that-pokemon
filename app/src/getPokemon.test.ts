@@ -12,6 +12,7 @@ describe("getPokemon", () => {
   let client: PokeClient;
 
   beforeAll(() => {
+    console.error = jest.fn();
     client = getPokeClient();
   });
 
@@ -21,39 +22,56 @@ describe("getPokemon", () => {
       const pokemonName = "ditto";
 
       // Act
-      const pokemon = await client.getPokemonByName(pokemonName);
+      const pokemon = await client.getPokemonDetailByName(pokemonName);
 
       // Assert
       expect(pokemon).toBeDefined();
       expect(pokemon).toEqual(examplePokemon);
     });
+
+    it("should catch and log an error thrown", async () => {
+      // Arrange / Act
+      const result = await client.getPokemonDetailByName(
+        "this pokemon does not exist"
+      );
+
+      // Assert
+      expect(result).toBeUndefined();
+      expect(console.error).toBeCalledWith(
+        expect.objectContaining({
+          message: "Request failed with status code 404"
+        })
+      );
+    });
   });
 
-  describe("getPokemonNames", () => {
-    it("should get first 20 pokemon if no offset provided", async () => {
+  describe("getPokemonsByHabitatId", () => {
+    it("should return pretty pokemon names for provided forest habitat id", async () => {
       // Arrange / Act
-      const pokemonList = await client.getPokemonNames();
-      console.log("pokemonList:", pokemonList);
+      const result = await client.getPokemonsByHabitatId(2);
 
       // Assert
-      expect(pokemonList).toBeDefined();
-      expect(pokemonList.length).toEqual(20);
-      expect(pokemonList[0].value).toEqual("bulbasaur"); // pokemon #1
+      expect(result).toBeDefined();
+      expect(result[0].value).toEqual("caterpie"); // pokemon #1 that lives in grasslands
+      expect(result[0].label).toEqual("Caterpie"); // pokemon #1 that lives in grasslands
     });
 
-    it("should get second 20 pokemon if offset of 20 provided", async () => {
+    it("should catch and log an error thrown", async () => {
       // Arrange / Act
-      const pokemonList = await client.getPokemonNames(20);
+      const result = await client.getPokemonsByHabitatId(2000); // This habitat doesn't exist
 
       // Assert
-      expect(pokemonList).toBeDefined();
-      expect(pokemonList.length).toEqual(20);
-      expect(pokemonList[0].value).toEqual("spearow"); // pokemon #20
+      expect(result).toBeUndefined();
+      expect(console.error).toBeCalledWith(
+        expect.objectContaining({
+          message: "Request failed with status code 404"
+        })
+      );
     });
   });
 
   describe("getPrettyPokemonNames", () => {
-    it("should get first 20 pokemon if no offset provided", () => {
+    it("should return pokemon names as drop down items", () => {
       // Arrange
       const pokemonNamesToPrettify = [
         { name: "bulbasaur", url: "https://pokeapi.co/api/v2/pokemon/1/" },
@@ -82,10 +100,28 @@ describe("getPokemon", () => {
       const prettyNames = getPrettyPokemonNames(pokemonNamesToPrettify);
 
       // Assert
-      expect(prettyNames).toBeDefined();
-      expect(prettyNames.length).toEqual(20);
-      expect(prettyNames[0].label).toEqual("Bulbasaur");
-      expect(prettyNames[0].value).toEqual("bulbasaur");
+      expect(prettyNames).toEqual([
+        { value: "bulbasaur", label: "Bulbasaur" },
+        { value: "ivysaur", label: "Ivysaur" },
+        { value: "venusaur", label: "Venusaur" },
+        { value: "charmander", label: "Charmander" },
+        { value: "charmeleon", label: "Charmeleon" },
+        { value: "charizard", label: "Charizard" },
+        { value: "squirtle", label: "Squirtle" },
+        { value: "wartortle", label: "Wartortle" },
+        { value: "blastoise", label: "Blastoise" },
+        { value: "caterpie", label: "Caterpie" },
+        { value: "metapod", label: "Metapod" },
+        { value: "butterfree", label: "Butterfree" },
+        { value: "weedle", label: "Weedle" },
+        { value: "kakuna", label: "Kakuna" },
+        { value: "beedrill", label: "Beedrill" },
+        { value: "pidgey", label: "Pidgey" },
+        { value: "pidgeotto", label: "Pidgeotto" },
+        { value: "pidgeot", label: "Pidgeot" },
+        { value: "rattata", label: "Rattata" },
+        { value: "raticate", label: "Raticate" }
+      ]);
     });
   });
 });
