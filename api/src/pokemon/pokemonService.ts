@@ -1,13 +1,21 @@
+import { PokemonClient } from "pokenode-ts";
 import { Pokemon } from "./pokemon";
-import { ditto } from "./testPokemon";
 
 export class PokemonService {
-  public get(name: string): Pokemon {
-    console.log("name:", name);
-    return {
-      name: ditto.name,
-      id: ditto.id,
-      sprite: ditto.sprites.front_default
-    };
+  client = new PokemonClient();
+
+  public async getDetail(name: string): Promise<Pokemon> {
+    try {
+      const result = await this.client.getPokemonByName(name);
+
+      return {
+        name: result.name,
+        id: result.id,
+        sprite: result.sprites.front_default
+      };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }
