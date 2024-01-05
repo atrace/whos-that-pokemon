@@ -1,0 +1,9 @@
+api/.yarn/*
+app/.yarn/*
+
+api/node_modules/*
+api/build/*
+api/src/**/*.js
+
+# macOS
+.DS_Store
