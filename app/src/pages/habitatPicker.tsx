@@ -1,9 +1,7 @@
 import { PokemonHabitats } from "pokenode-ts";
-import { useState } from "react";
+import React from "react";
 import { Text, View } from "react-native";
-import { Item } from "react-native-picker-select";
 import { Button } from "../components/Button";
-import { PokeClient } from "../getPokemon";
 import { Page } from "../utils";
 
 export interface HabitatProps {

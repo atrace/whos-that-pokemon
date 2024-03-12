@@ -12,8 +12,14 @@ interface PickPokemonProps {
 export const PickPokemon = ({
   setPokemonName,
   names,
-  confirmPokemon,
+  confirmPokemon
 }: PickPokemonProps) => {
+  console.log(
+    "setPokemonName, names, confirmPokemon,:",
+    setPokemonName,
+    names,
+    confirmPokemon
+  );
   const [disabled, setDisabled] = useState(true);
 
   return (
@@ -41,7 +47,7 @@ export const PickPokemon = ({
           style={{
             color: "white",
             fontWeight: "bold",
-            fontSize: 15,
+            fontSize: 15
           }}
         >
           View Pokémon

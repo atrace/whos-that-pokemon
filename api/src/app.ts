@@ -20,7 +20,26 @@ app.use(
 );
 app.use(json());
 
+type LogParams<T extends {}> = {
+  path: string;
+  message?: string;
+  params?: T;
+};
+
+type LogHit<T extends {}> = (args: LogParams<T>) => void;
+
+const logHit = ({
+  path,
+  message,
+  params
+}: {
+  path: string;
+  message?: string;
+  params?: unknown;
+}) => console.log();
+
 app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
+  console.log();
   return res.send(
     swaggerUi.generateHTML(await import("../build/swagger.json"))
   );

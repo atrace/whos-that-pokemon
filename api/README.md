@@ -4,6 +4,11 @@ This is a little middleware API layer between the mobile app "who's that pokemon
 
 Initially this is just an exercise in creating a small API in typescript to be deployed to Azure. Eventually this will hopefully do some fun data transformation / grouping of responses from PokeAPI to enable nice app features.
 
+Built with inspiration from:
+* Create a TSOA app https://tsoa-community.github.io/docs/getting-started.html
+* Generate a client from an openAPI spec https://openapi-generator.tech/docs/usage#generate 
+* publishing a package locally https://classic.yarnpkg.com/lang/en/docs/cli/link/
+
 ## Running this API
 
 To build and run with hot reloading:
@@ -40,8 +45,9 @@ The config for this package including the version number (which should be increm
 To consume a local version of this package:
 ```bash
 # run in api/
+yarn generate-spec
 yarn generate-client
-x
+
 # Publish package locally
 cd ./build/client
 yarn link

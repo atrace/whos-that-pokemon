@@ -29,7 +29,7 @@ export const getPrettyPokemonNames = (namesToPrettify: PokemonNames[]): Item[] =
 
 export interface PokeClient {
   getPokemonDetailByName: (name: string) => Promise<Pokemon>;
-  getPokemonsByHabitatId: (offset?: number) => Promise<Item[]>;
+  getPokemonsByHabitatId: (id: number) => Promise<Item[]>;
 }
 
 export const getPokeClient = (): PokeClient => {
@@ -46,10 +46,13 @@ export const getPokeClient = (): PokeClient => {
   };
 
   const getPokemonsByHabitatId = async (id: number): Promise<Item[]> => {
+    console.log("id:", id);
     try {
       const response = await client.getPokemonsByHabitatId(id);
+      console.log("response:", response);
       return getPrettyPokemonNames(response.data);
     } catch (error) {
+      console.log("error:", error);
       console.error(error);
     }
   };
